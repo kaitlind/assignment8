@@ -6,16 +6,22 @@
  
   <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <style>
+  
+  main{
+    margin: 0 auto;
+    max-width: 600px;
+  }
+  
     #slideshow {
       position: relative;
       width:600px;
       height:400px;
       margin: 20px auto;
-      padding: 10px 10px 30px;
+
     }
     
     #slideshow > li {
-      position:relative;
+      position:absolute;
       top: 10px;
       right:10px;
       list-style-type: none;
@@ -24,70 +30,83 @@
     
     #pageNum {
       width:80%;
-      display: inline;
     }
     
     #pageNum li {
-      display: inline;
+      display: inline-block;
       list-style-type:none;
       margin-right:4px;
     }
     
     #pageNum a {
       text-decoration: none;
+      margin:3px;
       padding:2px;
     }
     
-    .current {
-      
+    #pageNum a:hover {
+      border: 1px solid black;
+      margin:2px;
     }
+    
+    /*.current {*/
+      
+    /*}*/
 
   </style>
   
   
-  <script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-       $('#slideshow > li:gt(0)').hide(); 
-                
-        setInterval(function(){
-         $('#slideShow > li:first').fadeOut(1000).next().fadeIn(1000).end().appendTo('#slideShow'); 
-        }, 3000);
-        
-        var first=$(this).find('a:first').attr('href');
-        
-        $(first).css('border', 'solid 1px red')
-    });
-  </script>
+
 
 </head>
 
 <body>
   <div id="container">
 	<main>
-	  <section id="slideshowContainer">
+	  <section>
 	      <ul id="slideshow">
-	        <li><img src="images/Squirrel_1.jpg" alt="squirrel" id="sq1"></li>
-	        <li><img src="images/Squirrel_2.jpg" alt="squirrel" id="sq2"></li>
-	        <li><img src="images/Squirrel_3.jpg" alt="squirrel" id="sq3"></li>
-	        <li><img src="images/Squirrel_4.jpg" alt="squirrel" id="sq4"></li>
-	        <li><img src="images/Squirrel_5.jpg" alt="squirrel" id="sq5"></li>
+	        <li><img src="images/Squirrel_1.jpg" alt="squirrel" class="sImg"></li>
+	        <li><img src="images/Squirrel_2.jpg" alt="squirrel" class="sImg"></li>
+	        <li><img src="images/Squirrel_3.jpg" alt="squirrel" class="sImg"></li>
+	        <li><img src="images/Squirrel_4.jpg" alt="squirrel" class="sImg"></li>
+	        <li><img src="images/Squirrel_5.jpg" alt="squirrel" class="sImg"></li>
 	      </ul>
 	   </section>
-	   <section>
-	   <ul id="pageNum">
-	     <li><a href="#sq1">1</a></li>
-	     <li><a href="#sq2">2</a></li>
-	     <li><a href="#sq3">3</a></li>
-	     <li><a href="#sq4">4</a></li>
-	     <li><a href="#sq5">5</a></li>
-	   </ul>
-	   </section>
+
 	</main>
 	</div>
 	
-	
+	  <script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+      
+          $('#slideshow > li:gt(0)').hide();
+                
+          setInterval(function(){
+            $('#slideshow > li:first').fadeOut(1000).next().fadeIn(1000).end().appendTo('#slideshow');
+            }, 3000);
+      
+      var images = $('.sImg');
+      var newList = $('<ul id="pageNum">');
+      var anchorCount = 0;
+  
+      images.each(function(indx, elem){
+        $(this).html('<a name="pageNum' + anchorCount + '"></a>' + $(this).html());
+        newList.append( $('<li><a href="#pageNum' + anchorCount++ + '">' + anchorCount + '</a></li>') );
+        $('#slideshow').after(newList);
+      });
+      
+      $('#pageNum li a').on('click', goToImage);
+        
+      function goToImage(){
+        $('pageNum li a').show(  )
+      }
+      
+    });  
+ 
+  
+  </script>
 
 	
 </body>
